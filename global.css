@@ -40,3 +40,16 @@ body{
 .yearAxis {
 	font-size: 14px;
 }
+
+.causeAxis {
+   opacity: 0;
+   font-size: 14px;
+}
+
+.causeAxis path{
+     opacity: 0;	
+}
+
+.causeAxis .tick{
+     opacity: 0.5;	
+}

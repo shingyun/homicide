@@ -30,7 +30,27 @@ function dataLoaded(err,data){
 
    year = nestByYear.map(function(d){return d.key});
 
+   
+   var nestByCause = d3.nest().key(function(d){return d.cause;})
+       .entries(data);
+    
+   cause = nestByCause.map(function(d){return d.key})
+
+   console.log(cause);
+   var scaleCause = d3.scaleBand()
+       .domain(cause)
+       .range([0,w])
  
+   var axisCause = d3.axisTop()
+       .scale(scaleCause)
+       .tickSize(null);
+
+   plot1.append('g')
+        .attr('class','causeAxis')
+        .attr('transform','translate(50,0)')
+        .call(axisCause)
+
+
   var scaleMonth = d3.scaleBand()
     .domain(month)
     .range([0,w])
@@ -98,17 +118,7 @@ function dataLoaded(err,data){
     nodes.append('circle')
      .attr('r',8)
      .style('fill','#92140C')
-     .style('opacity',.8)
-     .on('mouseenter',function(d){
-        // console.log(d.countryKilled);
-        // console.log(d.year);
-        d3.select(this)
-        .style('stroke','black')
-        .style('stroke-width','5px');
-     })
-     .on('mouseleave',function(d){
-        d3.select(this).style('stroke',null);
-     });
+     .style('opacity',.8);
 
    simulation
         .force('charge',chargeForce)
@@ -124,6 +134,36 @@ function dataLoaded(err,data){
         .on('end',function(){
             console.log('simulation end');
         });
+
+
+   d3.select('.button')
+     .on('click',function(d){
+   
+       d3.selectAll('.monthText').style('opacity',0);
+       d3.selectAll('.monthAxis').style('opacity',0);
+       d3.selectAll('.causeAxis').style('opacity',1);
+
+       simulation
+        .force('charge',chargeForce)
+        .force('positionX',d3.forceX()
+                .x(function(d){return scaleCause(d.cause)}))
+        .force('positionY',forceY)
+        .force('collide',collide)
+        .alpha(1)
+        .restart()
+        .on('tick.position',function(){
+          
+          plot1.selectAll('.node')
+              .attr('transform',function(d){ 
+           return 'translate('+ (d.x+100)+','+ (d.y+35)+')'});
+         })
+        .on('end',function(){
+            console.log('simulation end');
+        });
+
+     });
+
+
 
 }
 
