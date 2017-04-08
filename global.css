@@ -1,0 +1,42 @@
+h1{
+	margin-left:65px;
+	margin-top: 50px;
+}
+
+body{
+	background:rgb(252,252,252);
+}
+
+.container{
+	position:relative;
+}
+
+
+.plot1{
+    width:100%;
+    min-height:1000px;
+}
+
+.monthAxis path{
+	opacity: 0;
+}
+
+.yearAxis path{
+	opacity: 0;
+}
+
+.monthAxis .tick{
+	opacity: 0.5;
+}
+
+.yearAxis .tick{
+	opacity: 0.5;
+}
+
+.monthAxis {
+	font-size: 14px;
+}
+
+.yearAxis {
+	font-size: 14px;
+}
